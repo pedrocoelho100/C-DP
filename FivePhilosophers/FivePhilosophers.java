@@ -12,8 +12,13 @@ public class FivePhilosophers{
 			Object left = forks[i];
 			Object right = forks[(i + 1) % forks.length];
  
-			philosophers[i] = new Philosopher(left, right);
-             
+			// philosophers[i] = new Philosopher(left, right);  deadlock
+
+			if(i == philosophers.length - 1)
+				philosophers[i] = new Philosopher(right, left);			
+			else
+				philosophers[i] = new Philosopher(left, right);
+
 			Thread t = new Thread(philosophers[i], "Philosopher " + (i + 1));
 			t.start();
 		}
