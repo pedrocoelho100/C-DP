@@ -2,13 +2,18 @@ public class Philosopher2 extends Thread{
 
 	private Fork left;
 	private Fork right;
+	private String name;
+	private int state; // State 1 = Thinking, State 2 = Eating
 
-	public Philosopher2(Fork left, Fork right){
+	public Philosopher2(String name, Fork left, Fork right){
+		this.state = 1;
+		this.name = name;
 		this.left = left;
 		this.right = right;
 	}
 
 	private void thinking(String s) throws InterruptedException{
+		this.state = 1;
 		System.out.println(Thread.currentThread().getName() + " " + s);
 		Thread.sleep(((int) (Math.random() * 100)));
 	}
@@ -21,12 +26,15 @@ public class Philosopher2 extends Thread{
 					if(!right.used){
 						left.putUp();
 						right.putUp();
-						thinking(System.nanoTime() + "- Eating.");
+						
+						System.out.println(name + " - Eating");
+						Thread.sleep(((int) (Math.random() * 100)));
+
 						right.putDown();
 						left.putDown();
 					}
 				}
-				thinking(System.nanoTime() + "- Thinking.");
+				thinking("- Thinking");
 			}
 		}catch(InterruptedException e){
 			Thread.currentThread().interrupt();
@@ -38,13 +46,20 @@ public class Philosopher2 extends Thread{
 
 class Fork{
 	
+	public String name;
 	public boolean used;
 
+	public Fork(String name){
+		this.name = name;
+	}
+
 	public synchronized void putUp(){
+		System.out.println("Picked up the fork number " + name);
 		this.used = true;
 	}
 
 	public synchronized void putDown(){
+		System.out.println("Put down the fork number " + name);
 		this.used = false;
 	}
 

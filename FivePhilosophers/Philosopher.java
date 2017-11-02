@@ -17,15 +17,15 @@ public class Philosopher implements Runnable{
 		
 		try{
 			while(true){
-				thinking(System.nanoTime() + "- Thinking.");
+				thinking("- Thinking");
 				synchronized(left){
-					thinking(System.nanoTime() + "- Picked up left fork.");
+					thinking("- Picked up left fork");
 					synchronized(right){
-						thinking(System.nanoTime() + "- Picked up right fork - eating.");
-						thinking(System.nanoTime() + "- Put down right fork.");
+						thinking("- Picked up right fork - Eating");
+						thinking("- Put down right fork");
 					}
 				}
-				thinking(System.nanoTime() + "- Put down left fork - thinking.");
+				thinking("- Put down left fork - Thinking");
 			}
 		}catch(InterruptedException e){
 			Thread.currentThread().interrupt();

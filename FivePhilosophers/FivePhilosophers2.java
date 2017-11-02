@@ -6,7 +6,7 @@ public class FivePhilosophers2{
 		Fork[] forks = new Fork[philosophers.length];
  
 		for(int i = 0; i < forks.length; i++)
-			forks[i] = new Fork();
+			forks[i] = new Fork("" + i);
  
 		for(int i = 0; i < philosophers.length; i++) {
 			Fork left = forks[i];
@@ -15,9 +15,9 @@ public class FivePhilosophers2{
 			// philosophers[i] = new Philosopher(left, right);  deadlock
 
 			if(i == philosophers.length - 1)
-				philosophers[i] = new Philosopher2(right, left);			
+				philosophers[i] = new Philosopher2("Philosopher " + i, right, left);			
 			else
-				philosophers[i] = new Philosopher2(left, right);
+				philosophers[i] = new Philosopher2("Philosopher " + i, left, right);
 
 			Thread t = new Thread(philosophers[i], "Philosopher " + (i + 1));
 			t.start();
