@@ -1,66 +1,57 @@
 public class Philosopher2 extends Thread{
 
+	private int nPhilosopher;
 	private Fork left;
 	private Fork right;
 	private String name;
-	private int state; // State 1 = Thinking, State 2 = Eating
 
-	public Philosopher2(String name, Fork left, Fork right){
-		this.state = 1;
+	public Philosopher2(int nPhilosopher, String name, Fork left, Fork right){
+		this.nPhilosopher = nPhilosopher;
 		this.name = name;
 		this.left = left;
 		this.right = right;
 	}
 
-	private void thinking(String s) throws InterruptedException{
-		this.state = 1;
+	private void print(String s) throws InterruptedException{
 		System.out.println(Thread.currentThread().getName() + " " + s);
-		Thread.sleep(((int) (Math.random() * 100)));
 	}
  
 	public void run(){
 		
 		try{
 			while(true){
-				if(!left.used){
-					if(!right.used){
-						left.putUp();
+				print("- Thinking");
+				Thread.sleep(((int) (Math.random() * 100)));
+				if(nPhilosopher % 2 == 1){
+					print("- Picked up left fork");
+					left.putUp();
+					print("- Picked up right fork");
+					right.putUp();
+				}
+				else{
+					if(nPhilosopher == 4){
+						print("- Picked up right fork");
 						right.putUp();
-						
-						System.out.println(name + " - Eating");
-						Thread.sleep(((int) (Math.random() * 100)));
-
-						right.putDown();
-						left.putDown();
+					}
+					else{
+						print("- Picked up left fork");
+						left.putUp();
+						print("- Picked up right fork");
+						right.putUp();
 					}
 				}
-				thinking("- Thinking");
+				print("- Eating");
+				Thread.sleep(((int) (Math.random() * 100)));
+				print("- Put down left fork");
+				left.putDown();
+				print("- Put down right fork");
+				right.putDown();
+				print("- Thinking");
 			}
+
 		}catch(InterruptedException e){
 			Thread.currentThread().interrupt();
 			return;
 		}
 	}
-
-}
-
-class Fork{
-	
-	public String name;
-	public boolean used;
-
-	public Fork(String name){
-		this.name = name;
-	}
-
-	public synchronized void putUp(){
-		System.out.println("Picked up the fork number " + name);
-		this.used = true;
-	}
-
-	public synchronized void putDown(){
-		System.out.println("Put down the fork number " + name);
-		this.used = false;
-	}
-
 }
