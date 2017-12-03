@@ -2,10 +2,6 @@ class Fork{
 	
 	private boolean available;
 
-	public Fork(boolean available){
-		this.available = available;
-	}
-
 	public synchronized void putUp() throws InterruptedException {
 		while(!available){
 			wait();

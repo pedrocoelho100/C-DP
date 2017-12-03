@@ -1,12 +1,13 @@
+import java.util.*;
+
 public class Philosopher2 extends Thread{
 
-	private int nPhilosopher;
 	private Fork left;
 	private Fork right;
 	private String name;
+	private static Random randnum = new Random();
 
-	public Philosopher2(int nPhilosopher, String name, Fork left, Fork right){
-		this.nPhilosopher = nPhilosopher;
+	public Philosopher2(String name, Fork left, Fork right){
 		this.name = name;
 		this.left = left;
 		this.right = right;
@@ -15,40 +16,26 @@ public class Philosopher2 extends Thread{
 	private void print(String s) throws InterruptedException{
 		System.out.println(Thread.currentThread().getName() + " " + s);
 	}
- 
+	
 	public void run(){
 		
 		try{
 			while(true){
+				Thread.sleep(300*randnum.nextInt(6));
 				print("- Thinking");
-				Thread.sleep(((int) (Math.random() * 100)));
-				if(nPhilosopher % 2 == 1){
+				synchronized(left){
+					Thread.sleep(300);
 					print("- Picked up left fork");
-					left.putUp();
-					print("- Picked up right fork");
-					right.putUp();
-				}
-				else{
-					if(nPhilosopher == 4){
-						print("- Picked up right fork");
-						right.putUp();
-					}
-					else{
-						print("- Picked up left fork");
-						left.putUp();
-						print("- Picked up right fork");
-						right.putUp();
+					synchronized(right){
+						Thread.sleep(300);
+						print("- Picked up right fork - Eating");
+						Thread.sleep(300);
+						print("- Put down right fork");						
 					}
 				}
-				print("- Eating");
-				Thread.sleep(((int) (Math.random() * 100)));
-				print("- Put down left fork");
-				left.putDown();
-				print("- Put down right fork");
-				right.putDown();
-				print("- Thinking");
+				Thread.sleep(300);
+				print("- Put down left fork - Thinking");	
 			}
-
 		}catch(InterruptedException e){
 			Thread.currentThread().interrupt();
 			return;
