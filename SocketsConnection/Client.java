@@ -1,29 +1,31 @@
 import java.net.*;
 import java.io.*;
 
-public class Client {
+class Client extends Thread {
 
-	public static void main(String[] args) throws Exception {
+	public static void main (String[] args){
 	
+		Socket socket = null;
+
 		String adres = args[0];
 		int port = Integer.parseInt(args[1]);
-		Socket socket = null;
 
 		try{
 			socket = new Socket(adres, port);
 			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			BufferedReader readMsg = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Hello! Connection made! You can start chatting:");
+			System.out.println("Connection made! Client address: " + adres + "! You can start chatting:");
 
 			String receive, send;
 
 			while(true){
+
         			send = readMsg.readLine();  // Read from keyboard
         			out.println(send);  // Send to server
         			out.flush();  // Flush data
         			if((receive = in.readLine()) != null){  // Receive from server
-           				System.out.println(receive);  // Print message
+           				System.out.println("Server: " + receive);  // Print message
         			}
 			}        
 
