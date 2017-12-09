@@ -19,7 +19,7 @@ public class ChatClientMain {
 			Registry registry = LocateRegistry.getRegistry(args[1]);
 			ChatServerInterface chatServerIf = (ChatServerInterface) registry.lookup("RMIChat");
 			new Thread(new ChatClient(args[0], chatServerIf)).start();
-
+			
 		} catch(RemoteException e) {
 			e.printStackTrace();
 		} catch(NotBoundException e) {

@@ -1,3 +1,3 @@
-grant codeBase "file:///C:/Desktop/RMI_Chat_CDP/bin" {
+grant codeBase "file:${user.home}/Desktop/C-DP/-" {
 	permission java.security.AllPermission;
 };

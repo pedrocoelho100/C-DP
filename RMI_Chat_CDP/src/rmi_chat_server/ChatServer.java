@@ -9,7 +9,7 @@ import rmi_chat_client.ChatClientInterface;
 
 public class ChatServer implements ChatServerInterface {
 	
-	ArrayList<ChatClientInterface> chatClients = new ArrayList<ChatClientInterface>();	
+	ArrayList<ChatClientInterface> chatClients = new ArrayList<ChatClientInterface>();
 
 	public synchronized void registerChatClient(ChatClientInterface chatClient) {
 		this.chatClients.add(chatClient);
@@ -34,7 +34,7 @@ public class ChatServer implements ChatServerInterface {
 			ChatServerInterface chatServerIf = (ChatServerInterface) UnicastRemoteObject.exportObject(chatServer, 0);
 			Registry registry = LocateRegistry.getRegistry();
 			registry.rebind("RMIChat", chatServerIf);
-			System.out.println("Chat server");
+			System.out.println("Chat server:");
 
 		} catch(RemoteException e){
 			e.printStackTrace();

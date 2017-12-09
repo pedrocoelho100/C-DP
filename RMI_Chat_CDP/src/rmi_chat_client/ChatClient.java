@@ -1,11 +1,11 @@
 package rmi_chat_client;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import rmi_chat_server.ChatServerInterface;
-import java.io.Serializable;
 
-public class ChatClient implements ChatClientInterface, Serializable, Runnable {
+public class ChatClient implements ChatClientInterface, Runnable {
 	
 	private static final long serialVersionUID = 1L;
 	private rmi_chat_server.ChatServerInterface chatServer;
@@ -14,7 +14,8 @@ public class ChatClient implements ChatClientInterface, Serializable, Runnable {
 	public ChatClient(String name, ChatServerInterface chatServer) throws RemoteException {
 		this.name = name;
 		this.chatServer = chatServer;
-		chatServer.registerChatClient(this);		
+		ChatClientInterface thisstub = (ChatClientInterface) UnicastRemoteObject.exportObject(this, 0);
+		chatServer.registerChatClient(thisstub);	
 	}
 	
 	public void retrieveMessage(String message) {
